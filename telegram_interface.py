@@ -102,8 +102,13 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    logger.info("Bot is ready to receive messages")
-    application.run_polling()
+    # Webhook setup
+    application.run_webhook(
+        listen="0.0.0.0",  # Listen on all interfaces
+        port=int(os.environ.get("PORT", 8443)),  # Use the PORT environment variable
+        url_path=TOKEN,  # The URL path should include your bot token
+        webhook_url=f"https://insurancechatbot-production.up.railway.app/{TOKEN}"  # Corrected webhook URL
+    )
 
 
 if __name__ == '__main__':
