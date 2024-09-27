@@ -65,7 +65,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await end_chat(user_id)
     except Exception as e:
         logger.error(f"An error occurred: {str(e)}")
-        await update.message.reply_text("An unexpected error occurred. Please try again later.")
+        await update.message.reply_text("the chat has ended. Send /start to restart the chat")
         await end_chat(user_id)
 
 
