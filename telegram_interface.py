@@ -36,7 +36,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Read the initial output from the chatbot (main menu)
     initial_output = await read_output(process)
-    await update.message.reply_text(initial_output)
+
+    if initial_output:
+        await update.message.reply_text(initial_output)
+    else:
+        await update.message.reply_text("Chatbot started but returned no output.")
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -78,6 +82,7 @@ async def read_output(process, timeout=5):
             if not line:
                 break
             output += line
+            logger.info(f"Chatbot output: {line.decode('utf-8').strip()}")  # Log each line of output
     except asyncio.TimeoutError:
         # No more output expected within the timeout
         pass
